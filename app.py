@@ -50,7 +50,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 def get_gemini_repsonse(input, image, prompt):
 
     # Select the Gemini AI model that we want to use
-    model = genai.GenerativeModel("gemini-2.5-flash")
+    model = genai.GenerativeModel("gemini-3.5-flash")
 
     # Send our prompt + image + user input to Gemini
     response = model.generate_content([input, image[0], prompt])
@@ -96,165 +96,99 @@ def input_image_setup(uploaded_file):
         raise FileNotFoundError("No file uploaded")
 
 
-# # ---------------------------------------------------------
-# # STEP 6: Start creating our Streamlit Web Application
-# #
-# # set_page_config() controls basic settings of our webpage.
-# # Here we are giving our webpage a title.
-# # ---------------------------------------------------------
+# ---------------------------------------------------------
+# STEP 6: Start creating our Streamlit Web Application
+# ---------------------------------------------------------
 
-# st.set_page_config(
-#     page_title="Personalized AI Calorie Counting App"
-# )
+st.set_page_config(
+    page_title="Personalized AI Calorie Counting App"
+)
 
 
-# # ---------------------------------------------------------
-# # STEP 7: Display the main heading of our application
-# # ---------------------------------------------------------
+# ---------------------------------------------------------
+# STEP 7: Display the main heading of our application
+# ---------------------------------------------------------
 
-# st.header("Personalized AI Calorie Counter App")
-
-
-# # ---------------------------------------------------------
-# # STEP 8: Create a text input box
-# #
-# # This allows the user to give additional instructions
-# # to Gemini.
-# #
-# # Example:
-# # "Is this meal healthy?"
-# # "Tell me the protein also."
-# # ---------------------------------------------------------
-
-# input = st.text_input(
-#     "Input Prompt: ",
-#     key="input"
-# )
+st.header("Personalized AI Calorie Counter App")
 
 
-# # ---------------------------------------------------------
-# # STEP 9: Create an Image Upload option
-# #
-# # file_uploader() allows users to upload a food photograph.
-# # We are allowing JPG, JPEG and PNG images.
-# # ---------------------------------------------------------
+# ---------------------------------------------------------
+# STEP 8: Create a text input box
+# ---------------------------------------------------------
 
-# uploaded_file = st.file_uploader(
-#     "Choose an image...",
-#     type=["jpg", "jpeg", "png"]
-# )
+user_prompt = st.text_input(
+    "Input Prompt: ",
+    key="input"
+)
 
 
-# # ---------------------------------------------------------
-# # STEP 10: Display the uploaded image on the screen
-# #
-# # First we check whether an image has been uploaded.
-# # If yes, PIL opens the image and Streamlit displays it.
-# # ---------------------------------------------------------
+# ---------------------------------------------------------
+# STEP 9: Create an Image Upload option
+# ---------------------------------------------------------
 
-# image = ""
-
-# if uploaded_file is not None:
-
-#     # Open the uploaded image
-#     image = Image.open(uploaded_file)
-
-#     # Display the image on our webpage
-#     st.image(
-#         image,
-#         caption="Uploaded Image.",
-#         use_container_width=True
-#     )
+uploaded_file = st.file_uploader(
+    "Choose an image...",
+    type=["jpg", "jpeg", "png"]
+)
 
 
-# # ---------------------------------------------------------
-# # STEP 11: Create the Submit Button
-# #
-# # The AI analysis will start when the user clicks
-# # "Tell me the total calories".
-# # ---------------------------------------------------------
+# ---------------------------------------------------------
+# STEP 10: Display the uploaded image on the screen
+# ---------------------------------------------------------
 
-# submit = st.button("Tell me the total calories")
+image = ""
 
-
-# # ---------------------------------------------------------
-# # STEP 12: Create the System Prompt / Instructions for AI
-# #
-# # This is where we tell Gemini:
-# #
-# # WHO it should behave like -> Nutrition expert
-# # WHAT it should do -> Identify food
-# # HOW it should respond -> Give calories item by item
-# #
-# # This is an example of Prompt Engineering.
-# # ---------------------------------------------------------
-
-# input_prompt = """
-# You are an expert in nutritionist where you need to see
-# the food items from the image and calculate the total calories.
-
-# Also provide the details of every food item with calories
-# intake in the below format:
-
-# 1. Item 1 - no of calories
-# 2. Item 2 - no of calories
-# 3. Item 3 - no of calories
-
-# Also provide the estimated total calories.
-# """
+if uploaded_file is not None:
+    image = Image.open(uploaded_file)
+    st.image(
+        image,
+        caption="Uploaded Image.",
+        use_container_width=True
+    )
 
 
-# # ---------------------------------------------------------
-# # STEP 13: Check whether the user clicked the button
-# #
-# # "if submit" means:
-# #
-# # IF the button was clicked,
-# # THEN execute the code written below.
-# # ---------------------------------------------------------
+# ---------------------------------------------------------
+# STEP 11: Create the Submit Button
+# ---------------------------------------------------------
 
-# if submit:
-
-#     # -----------------------------------------------------
-#     # STEP 14: Convert the uploaded image into a format
-#     # that Gemini AI can understand.
-#     # -----------------------------------------------------
-
-#     image_data = input_image_setup(uploaded_file)
+submit = st.button("Tell me the total calories")
 
 
-#     # -----------------------------------------------------
-#     # STEP 15: Send everything to Gemini
-#     #
-#     # We are sending:
-#     #
-#     # 1. Our main instructions
-#     # 2. The food image
-#     # 3. User's additional prompt
-#     #
-#     #            PROMPT
-#     #               +
-#     #             IMAGE
-#     #               +
-#     #          USER INPUT
-#     #               ↓
-#     #            GEMINI AI
-#     #               ↓
-#     #            RESPONSE
-#     # -----------------------------------------------------
+# ---------------------------------------------------------
+# STEP 12: Create the System Prompt / Instructions for AI
+# ---------------------------------------------------------
 
-#     response = get_gemini_repsonse(
-#         input_prompt,
-#         image_data,
-#         input
-#     )
+input_prompt = """
+You are an expert in nutritionist where you need to see
+the food items from the image and calculate the total calories.
+
+Also provide the details of every food item with calories
+intake in the below format:
+
+1. Item 1 - no of calories
+2. Item 2 - no of calories
+3. Item 3 - no of calories
+
+Also provide the estimated total calories.
+"""
 
 
-#     # -----------------------------------------------------
-#     # STEP 16: Display Gemini's response on our webpage
-#     # -----------------------------------------------------
+# ---------------------------------------------------------
+# STEP 13: Check whether the user clicked the button
+# ---------------------------------------------------------
 
-#     st.subheader("The Response is")
+if submit:
+    if uploaded_file is None:
+        st.error("Please upload an image first.")
+    else:
+        image_data = input_image_setup(uploaded_file)
 
-#     st.write(response)
+        response = get_gemini_repsonse(
+            input_prompt,
+            image_data,
+            user_prompt
+        )
+
+        st.subheader("The Response is")
+        st.write(response)
 
