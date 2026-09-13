@@ -1,0 +1,12 @@
+app = "aj-nutrion"
+primary_region = "ams"
+
+[processes]
+  app = "python -m streamlit run app.py --server.port 8000 --server.address 0.0.0.0"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
