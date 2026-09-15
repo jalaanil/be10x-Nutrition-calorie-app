@@ -1,21 +1,34 @@
-app = "be10x-nutrition-calorie-app"
-primary_region = "ams"
+# fly.toml app configuration file generated for akj-nutrition-calorie-app on 2026-09-15T22:51:48Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'akj-nutrition-calorie-app'
+primary_region = 'ams'
+
+[build]
 
 [env]
-  STREAMLIT_SERVER_ADDRESS = "0.0.0.0"
-  STREAMLIT_SERVER_PORT = "8000"
-  STREAMLIT_SERVER_HEADLESS = "true"
+  STREAMLIT_SERVER_ADDRESS = '0.0.0.0'
+  STREAMLIT_SERVER_HEADLESS = 'true'
+  STREAMLIT_SERVER_PORT = '8000'
 
 [http_service]
   internal_port = 8000
   force_https = true
-  auto_stop_machines = false
+  auto_stop_machines = 'off'
   auto_start_machines = true
   min_machines_running = 1
 
-[[http_service.checks]]
-  grace_period = "30s"
-  interval = "15s"
-  method = "get"
-  path = "/_stcore/health"
-  timeout = "5s"
+  [[http_service.checks]]
+    interval = '15s'
+    timeout = '5s'
+    grace_period = '30s'
+    method = 'get'
+    path = '/_stcore/health'
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 2048
