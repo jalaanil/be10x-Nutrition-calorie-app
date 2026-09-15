@@ -12,4 +12,5 @@ COPY . .
 EXPOSE 8000
 
 # Execute Streamlit with your exact flags
-CMD ["python", "-m", "streamlit", "run", "app.py", "--server.port", "8000", "--server.address", "0.0.0.0","--server.headless", "true"]
+# CMD ["python", "-m", "streamlit", "run", "app.py", "--server.port", "8000", "--server.address", "0.0.0.0","--server.headless", "true"]
+CMD ["streamlit", "run", "app.py", "--server.port=8000", "--server.address=0.0.0.0", "--server.headless=true", "--server.enableCORS=false"]
