@@ -1,7 +1,10 @@
 app = "be10x-nutrition-calorie-app"
-primary_region = "ams" # Change to your region if different
+primary_region = "ams"
 
-[build]
+[env]
+  STREAMLIT_SERVER_ADDRESS = "0.0.0.0"
+  STREAMLIT_SERVER_PORT = "8000"
+  STREAMLIT_SERVER_HEADLESS = "true"
 
 [http_service]
   internal_port = 8000
@@ -10,3 +13,9 @@ primary_region = "ams" # Change to your region if different
   auto_start_machines = true
   min_machines_running = 1
 
+[[http_service.checks]]
+  grace_period = "30s"
+  interval = "15s"
+  method = "get"
+  path = "/_stcore/health"
+  timeout = "5s"
