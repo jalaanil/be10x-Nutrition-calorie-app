@@ -1,4 +1,4 @@
-app = "be10x-nutrition-calorie-app"
+app = "akj-nutrition-calorie-app"
 primary_region = "ams"
 
 [env]
