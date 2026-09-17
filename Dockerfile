@@ -15,7 +15,7 @@ EXPOSE 8000
 # CMD ["python", "-m", "streamlit", "run", "app.py", "--server.port", "8000", "--server.address", "0.0.0.0","--server.headless", "true"]
 # CMD ["streamlit", "run", "app.py", "--server.port=8000", "--server.address=0.0.0.0", "--server.headless=true", "--server.enableCORS=false"]
 
-CMD ["python", "-m", "streamlit", "run", "app.py", \
+CMD ["python", "-m", "streamlit", "run", "app2.py", \
      "--server.port=8000", \
      "--server.address=0.0.0.0", \
      "--server.headless=true", \
