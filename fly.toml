@@ -7,7 +7,7 @@ primary_region = "ams"
   STREAMLIT_SERVER_HEADLESS = "true"
 
 [http_service]
-  internal_port = 8000
+  internal_port = 8001
   force_https = true
   auto_stop_machines = false
   auto_start_machines = true
