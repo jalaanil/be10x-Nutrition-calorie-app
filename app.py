@@ -29,9 +29,9 @@ load_dotenv()
 # Think of the API key as a password/access key for Gemini.
 # ---------------------------------------------------------
 
-# gkey = "AIzaSyDB317nRioshbfTnfAsxyQS2vrEcG1Xf_Y"
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-# genai.configure(api_key=gkey)
+
+genai.configure(api_key=os.getenv("AKJ_GOOGLE_API_KEY"))
+
 
 
 # ---------------------------------------------------------
@@ -110,6 +110,7 @@ st.set_page_config(
 # ---------------------------------------------------------
 
 st.header("Personalized AI Calorie Counter App")
+st.text ("Upload image with food for which you want calories to be estimated")
 
 
 # ---------------------------------------------------------
